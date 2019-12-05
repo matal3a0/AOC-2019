@@ -1,4 +1,4 @@
-import sys
+import sys, operator
 
 def get_data():
     f = open("day2.txt","r")
@@ -8,6 +8,10 @@ def get_data():
 
 def main():
     data = get_data()
+    ops = {
+        1: operator.add,
+        2: operator.mul
+    }
 
     for n in range(0, 100):
         for b in range(0, 100):
@@ -15,15 +19,13 @@ def main():
             t_data[1] = n
             t_data[2] = b
 
-            i = 0
+            ip = 0
 
-            while t_data[i] != 99:
-                if t_data[i] == 1:
-                    t_data[t_data[i+3]] = t_data[t_data[i+1]] + t_data[t_data[i+2]]
-                elif t_data[i] == 2:
-                    t_data[t_data[i + 3]] = t_data[t_data[i + 1]] * t_data[t_data[i + 2]]
+            while t_data[ip] != 99:
+                op = ops[t_data[ip]]
+                t_data[t_data[ip + 3]] = op(t_data[t_data[ip + 1]], t_data[t_data[ip + 2]])
 
-                i += 4
+                ip += 4
 
             if t_data[0] == 19690720:
                 print(100 * n + b)
